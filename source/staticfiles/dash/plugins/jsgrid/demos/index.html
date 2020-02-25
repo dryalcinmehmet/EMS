@@ -1,0 +1,31 @@
+{% load staticfiles %}<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>jsGrid - Simple jQuery DataGrid - Demos</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'dash/demos.css' %}" />
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,600,400' rel='stylesheet' type='text/css'>
+</head>
+<body>
+    <div class="navigation">
+        <h1>jsGrid Demos</h1>
+        <ul>
+            <li><a href="{% url 'basic' %}" target="demo">Basic Scenario</a></li>
+            <li><a href="{% url 'staticdata' %}" target="demo">Static Data</a></li>
+            <li><a href="{% url 'odataservice' %}" target="demo">OData Service</a></li>
+            <li><a href="{% url 'datamanipulation' %}" target="demo">Data Manipulation</a></li>
+            <li><a href="{% url 'validation' %}" target="demo">Validation</a></li>
+            <li><a href="{% url 'sorting' %}" target="demo">Sorting</a></li>
+            <li><a href="{% url 'loadingbypage' %}" target="demo">Loading by Page</a></li>
+            <li><a href="{% url 'customview' %}" target="demo">Custom View</a></li>
+            <li><a href="{% url 'customrowrenderer' %}" target="demo">Custom Row Renderer</a></li>
+            <li><a href="{% url 'externalpager' %}" target="demo">External Pager</a></li>
+            <li><a href="{% url 'customgridfield' %}" target="demo">Custom Grid Field</a></li>
+            <li><a href="{% url 'localization' %}" target="demo">Localization</a></li>
+        </ul>
+    </div>
+    <div class="demo-frame">
+        <iframe name="demo" src="{% url 'basic' %}"></iframe>
+    </div>
+</body>
+</html>
