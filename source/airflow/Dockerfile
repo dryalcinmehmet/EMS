@@ -59,6 +59,7 @@ RUN set -ex \
     && pip install bs4 \
     && pip install ndg-httpsclient \
     && pip install pandasticsearch \
+    && pip install Werkzeug==0.16.1 \
     && pip install pyasn1 \
     && pip install mysql-connector \
     && pip install sqlalchemy \

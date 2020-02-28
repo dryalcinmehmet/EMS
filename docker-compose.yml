@@ -11,24 +11,6 @@ services:
       - static_volume:/home/source/web/staticfiles
       - media_volume:/home/source/web/mediafiles
       - .:/app
-    env_file:
-      - ./.env.prod
-    depends_on:
-      - db
-      - elasticsearch
-      - kibana
-    environment:
-      - LOGSTASH_HOST=logstash
-    expose:
-      - 5959
-    logging:
-      driver: "json-file"
-  db:
-    image: postgres:12.0-alpine
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
-    env_file:
-      - ./.env.prod.db
   nginx:
     restart: always
     build: ./nginx
@@ -40,52 +22,12 @@ services:
       - 80:80
     depends_on:
       - web
-  elasticsearch:
-    labels:
-      com.example.service: "elasticsearch"
-      com.example.description: "For searching and indexing data"
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.4.2
-    container_name: elasticsearch
-    environment:
-      - discovery.type=single-node
-      - network.publish_host=0.0.0.0
-    volumes:
-      - type: volume
-        source: esdata
-        target: /usr/share/elasticsearch/data/
-    ports:
-      - 9200:9200
 
-
-  kibana:
-    labels:
-      com.example.service: "kibana"
-      com.example.description: "Data visualisation and for log aggregation"
-    image: kibana:7.4.2
-    container_name: kibana
-    ports:
-      - 5601:5601
-    environment:
-      - ELASTICSEARCH_URL=http://elasticsearch:9200
-    depends_on:
-      - elasticsearch
-  logstash:
-    labels:
-      com.example.service: "logstash"
-      com.example.description: "For logging data"
-    image: logstash:7.4.2
-    volumes:
-      - ./:/logstash_dir
-    command: logstash -f /elk/logstash.conf
-    depends_on:
-      - elasticsearch
-    ports:
-      - 5959:5959
 volumes:
   postgres_data:
   static_volume:
   media_volume:
-  esdata:
+
 
 #networks:
 #  elasticnetwork:

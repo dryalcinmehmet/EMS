@@ -10,7 +10,6 @@ services:
       volumes:
         - /var/run/docker.sock:/var/run/docker.sock
         - portainer_data:/data
-
     postgres:
         image: postgres:12.0-alpine
         environment:
@@ -18,9 +17,9 @@ services:
             - POSTGRES_PASSWORD=airflow
             - POSTGRES_DB=airflow
         ports:
-          - 5433:5433
+          - 5432:5432
     webserver:
-        image: puckel/docker-airflow:1.10.6
+        image: apache/airflow
         build:
             context: .
             dockerfile: Dockerfile
@@ -33,15 +32,53 @@ services:
         volumes:
             - ./dags:/usr/local/airflow/dags
             # Uncomment to include custom plugins
-            # - ./plugins:/usr/local/airflow/plugins
+            - ./plugins:/usr/local/airflow/plugins
         ports:
             - "8080:8080"
-
         command: webserver
         healthcheck:
             test: ["CMD-SHELL", "[ -f /usr/local/airflow/airflow-webserver.pid ]"]
             interval: 30s
             timeout: 30s
             retries: 3
+    elasticsearch:
+        labels:
+            com.example.service: "elasticsearch"
+            com.example.description: "For searching and indexing data"
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.4.2
+        container_name: elasticsearch
+        environment:
+            - discovery.type=single-node
+            - network.publish_host=0.0.0.0
+        volumes:
+            - esdata
+            - /usr/share/elasticsearch/data/
+        ports:
+            - 9200:9200
+    kibana:
+        labels:
+            com.example.service: "kibana"
+            com.example.description: "Data visualisation and for log aggregation"
+        image: kibana:7.4.2
+        container_name: kibana
+        ports:
+            - 5601:5601
+        environment:
+            - ELASTICSEARCH_URL=http://elasticsearch:9200
+        depends_on:
+            - elasticsearch
+    logstash:
+        labels:
+            com.example.service: "logstash"
+            com.example.description: "For logging data"
+        image: logstash:7.4.2
+        volumes:
+           - ./:/logstash_dir
+        command: logstash -f /elk/logstash.conf
+        depends_on:
+           - elasticsearch
+        ports:
+           - 5959:5959
 volumes:
   portainer_data:
+  esdata:
