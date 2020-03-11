@@ -45,13 +45,12 @@ function clear_ports() {
 
 function init() {
     docker-compose -f docker-compose.yml down -v &&
+    docker-compose -f source/airflow/docker-compose-LocalExecutor.yml down -v &&
     docker-compose -f docker-compose.yml up -d --build &&
     docker-compose -f docker-compose.yml exec web python manage.py migrate --noinput &&
     docker-compose -f docker-compose.yml exec web python manage.py collectstatic --no-input &&
     docker-compose up -d --no-deps --build web &&
     docker-compose -f source/airflow/docker-compose-LocalExecutor.yml up -d --build
-
-
 }
 
 function init_justup() {

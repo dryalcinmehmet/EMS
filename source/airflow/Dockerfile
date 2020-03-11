@@ -59,9 +59,16 @@ RUN set -ex \
     && pip install bs4 \
     && pip install ndg-httpsclient \
     && pip install pandasticsearch \
+    && pip install espandas \
     && pip install Werkzeug==0.16.1 \
     && pip install pyasn1 \
     && pip install mysql-connector \
+    && pip install --upgrade tensorflow \
+    && pip install numpy scipy \
+    && pip install scikit-learn \
+    && pip install pillow \
+    && pip install h5py \
+    && pip install keras \
     && pip install sqlalchemy \
     && pip install elasticsearch \
     && pip install django_elasticsearch_dsl_drf \

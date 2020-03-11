@@ -3,7 +3,7 @@ from django.views import generic
 
 
 def test(request):
-    return HttpResponse('Hello Python World!')
+    return HttpResponse('Hello Python World2!')
 
 
 class index3Page(generic.TemplateView):
