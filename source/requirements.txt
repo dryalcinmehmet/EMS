@@ -7,7 +7,7 @@ djangorestframework
 django-filter
 markdown
 python-logstash
-celery==3.1.20
+celery==5.2.2
 redis==2.10.5
 requests==2.7.0
 Werkzeug==0.16.1
